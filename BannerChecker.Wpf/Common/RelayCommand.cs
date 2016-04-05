@@ -8,8 +8,8 @@ namespace BannerChecker.Wpf.Common
 {
 	public class RelayCommand : CommandBase
 	{
-		private readonly IEnumerable<Func<bool>> canExecuteCollection;
-		private readonly Action execute;
+		private readonly IEnumerable<Func<bool>> _canExecuteCollection;
+		private readonly Action _execute;
 
 		public RelayCommand(Action execute)
 			: this(execute, () => true)
@@ -23,8 +23,8 @@ namespace BannerChecker.Wpf.Common
 
 		public RelayCommand(Action execute, IEnumerable<Func<bool>> canExecutePredicates, IEnumerable<Tuple<INotifyPropertyChanged, string>> invalidators)
 		{
-			this.execute = execute;
-			canExecuteCollection = canExecutePredicates;
+			_execute = execute;
+			_canExecuteCollection = canExecutePredicates;
 			AddInvalidators(invalidators);
 		}
 
@@ -36,19 +36,19 @@ namespace BannerChecker.Wpf.Common
 
 		public sealed override bool CanExecute(object parameter)
 		{
-			return canExecuteCollection.All(ce => ce());
+			return _canExecuteCollection.All(ce => ce());
 		}
 
 		protected sealed override void PerformExecute(object parameter)
 		{
-			execute();
+			_execute();
 		}
 	}
 
 	public class RelayCommand<T> : CommandBase
 	{
-		private readonly IEnumerable<Func<T, bool>> canExecuteCollection;
-		private readonly Action<T> execute;
+		private readonly IEnumerable<Func<T, bool>> _canExecuteCollection;
+		private readonly Action<T> _execute;
 
 		public RelayCommand(Action<T> execute)
 			: this(execute, par => true)
@@ -62,8 +62,8 @@ namespace BannerChecker.Wpf.Common
 
 		public RelayCommand(Action<T> execute, IEnumerable<Func<T, bool>> canExecutePredicates, IEnumerable<Tuple<INotifyPropertyChanged, string>> invalidators, bool listenCommandManager)
 		{
-			this.execute = execute;
-			canExecuteCollection = canExecutePredicates;
+			_execute = execute;
+			_canExecuteCollection = canExecutePredicates;
 			AddInvalidators(invalidators);
 			InitializeCommandManager(listenCommandManager);
 		}
@@ -71,12 +71,12 @@ namespace BannerChecker.Wpf.Common
 		public sealed override bool CanExecute(object parameter)
 		{
 			var par = (T)parameter;
-			return canExecuteCollection.All(ce => ce(par));
+			return _canExecuteCollection.All(ce => ce(par));
 		}
 
 		protected sealed override void PerformExecute(object parameter)
 		{
-			execute((T)parameter);
+			_execute((T)parameter);
 		}
 
 		private void InitializeCommandManager(bool listenCommandManager)

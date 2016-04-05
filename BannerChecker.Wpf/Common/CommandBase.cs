@@ -10,11 +10,11 @@ namespace BannerChecker.Wpf.Common
 	{
 		private class Listener<TEventArgs> : IWeakEventListener where TEventArgs : EventArgs
 		{
-			private readonly EventHandler<TEventArgs> realHandler;
+			private readonly EventHandler<TEventArgs> _realHandler;
 
 			public Listener(EventHandler<TEventArgs> handler)
 			{
-				realHandler = handler;
+				_realHandler = handler;
 			}
 
 			bool IWeakEventListener.ReceiveWeakEvent(Type managerType, Object sender, EventArgs e)
@@ -26,17 +26,17 @@ namespace BannerChecker.Wpf.Common
 			private void ExecuteRealHandler(object sender, EventArgs e)
 			{
 				var realArgs = (TEventArgs) e;
-				realHandler(sender, realArgs);
+				_realHandler(sender, realArgs);
 			}
 		}
 
-		private readonly Listener<PropertyChangedEventArgs> weakEventListener;
+		private readonly Listener<PropertyChangedEventArgs> _weakEventListener;
 
 		public event EventHandler CanExecuteChanged;
 
 		protected CommandBase()
 		{
-			weakEventListener = new Listener<PropertyChangedEventArgs>(RequeryCanExecute);
+			_weakEventListener = new Listener<PropertyChangedEventArgs>(RequeryCanExecute);
 		}
 
 		public abstract bool CanExecute(object parameter);
@@ -57,7 +57,7 @@ namespace BannerChecker.Wpf.Common
 		protected void AddListenerInternal<TEntity>(TEntity source, string propertyName)
 			where TEntity : INotifyPropertyChanged
 		{
-			PropertyChangedEventManager.AddListener(source, weakEventListener, propertyName);
+			PropertyChangedEventManager.AddListener(source, _weakEventListener, propertyName);
 		}
 
 		protected virtual void BeforeExecure()

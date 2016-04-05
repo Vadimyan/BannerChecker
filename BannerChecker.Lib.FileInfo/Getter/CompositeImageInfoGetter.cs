@@ -6,13 +6,13 @@ using System.Reflection;
 
 namespace BannerChecker.Lib.FileInfo.Getter
 {
-	class CompositeImageInfoGetter : IImageInfoGetter
+	public class CompositeImageInfoGetter : IImageInfoGetter
 	{
-		private readonly Dictionary<string, IImageInfoGetter> getters;
+		private readonly Dictionary<string, IImageInfoGetter> _getters;
 
 		public CompositeImageInfoGetter()
 		{
-			getters = new Dictionary<string, IImageInfoGetter>();
+			_getters = new Dictionary<string, IImageInfoGetter>();
 			IEnumerable<Type> infoGetterTypes = GetImageInfoGetters();
 			FillGetters(infoGetterTypes);
 		}
@@ -23,7 +23,7 @@ namespace BannerChecker.Lib.FileInfo.Getter
 									   from attribute in ig.GetCustomAttributes<ImageInfoGetterAttribute>()
 									   select new { attribute.FileExtrnsion, Instance = (IImageInfoGetter)Activator.CreateInstance(ig) })
 			{
-				getters.Add(infoGetter.FileExtrnsion, infoGetter.Instance);
+				_getters.Add(infoGetter.FileExtrnsion, infoGetter.Instance);
 			}
 		}
 
@@ -36,8 +36,8 @@ namespace BannerChecker.Lib.FileInfo.Getter
 		public ImageInfo GetInfo(string filePath)
 		{
 			var fileExtension = Path.GetExtension(filePath);
-			return !string.IsNullOrEmpty(fileExtension) && getters.ContainsKey(fileExtension) 
-				? getters[fileExtension].GetInfo(filePath) 
+			return !string.IsNullOrEmpty(fileExtension) && _getters.ContainsKey(fileExtension) 
+				? _getters[fileExtension].GetInfo(filePath) 
 				: null;
 		}
 	}

@@ -3,6 +3,7 @@ using System.IO;
 
 namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
 {
+	[ImageInfoGetter("swf")]
 	class SwfImageInfoGetter : ImageInfoGetterBase
 	{
 		protected override Size GetImageSize(string filePath)

@@ -1,6 +1,6 @@
 ﻿namespace BannerChecker.Lib.FileInfo.Getter
 {
-	interface IImageInfoGetter
+	public interface IImageInfoGetter
 	{
 		ImageInfo GetInfo(string filePath);
 	}
