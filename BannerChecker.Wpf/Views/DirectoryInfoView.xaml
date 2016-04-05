@@ -19,7 +19,7 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
-		<TextBox Text="{Binding DirectoryPath, Delay=1000}" />
+		<TextBox Text="{Binding DirectoryPath, Delay=2000}" />
 		<Button Grid.Row="0" Grid.Column="1" Content="Папка" />
 		<DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" 
 				  ItemsSource="{Binding DirectoryFilesInfo}" AutoGenerateColumns="True">
