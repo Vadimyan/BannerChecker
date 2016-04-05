@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\DirectoryInfoViewModel.cs" />
     <Compile Include="Views\DirectoryInfoView.xaml.cs">
       <DependentUpon>DirectoryInfoView.xaml</DependentUpon>
     </Compile>
@@ -108,7 +109,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <ProjectReference Include="..\BannerChecker.Lib.FileInfo\BannerChecker.Lib.FileInfo.csproj">
+      <Project>{b55964b3-8d76-42be-83f6-a2137b6965f6}</Project>
+      <Name>BannerChecker.Lib.FileInfo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
