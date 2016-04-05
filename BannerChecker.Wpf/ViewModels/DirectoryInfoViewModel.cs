@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using BannerChecker.Lib.FileInfo;
 using BannerChecker.Lib.FileInfo.Getter;
 using BannerChecker.Wpf.Common;
@@ -31,16 +33,24 @@ namespace BannerChecker.Wpf.ViewModels
 		private void UpdateDirectoryFilesInfo(string directoryPath)
 		{
 			if (Directory.Exists(directoryPath))
-				UpdateFilesInfo(Directory.GetFiles(directoryPath));
+				UpdateFilesInfo(GetAllNestedFiles(directoryPath));
 		}
 
-		private void UpdateFilesInfo(string[] directoryFiles)
+		private static IEnumerable<string> GetAllNestedFiles(string directoryPath)
+		{
+			return Directory
+				.GetDirectories(directoryPath)
+				.SelectMany(GetAllNestedFiles)
+				.Union(Directory.GetFiles(directoryPath));
+		}
+
+		private void UpdateFilesInfo(IEnumerable<string> directoryFiles)
 		{
 			DirectoryFilesInfo.Clear();
 			FillFilesInfo(directoryFiles);
 		}
 
-		private void FillFilesInfo(string[] directoryFiles)
+		private void FillFilesInfo(IEnumerable<string> directoryFiles)
 		{
 			foreach (var directoryFile in directoryFiles)
 				TryAddImageFileInfo(directoryFile);

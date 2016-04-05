@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BannerChecker.Lib.FileInfo.Getter;
+using BannerChecker.Wpf.ViewModels;
 
 namespace BannerChecker.Wpf.Common
 {
@@ -7,16 +9,14 @@ namespace BannerChecker.Wpf.Common
 	{
 		private static readonly Dictionary<Type, Func<ViewModelBase>> builders = new Dictionary<Type, Func<ViewModelBase>>
 		{
-			//{ typeof (CloudServicesViewModel), CreateCloudServicesViewModel },
+			{ typeof (DirectoryInfoViewModel), CreateDirectoryInfoViewModel }
 		};
-
+		
 		public static TViewModel Resolve<TViewModel>()
 			where TViewModel : ViewModelBase
 		{
 			var type = typeof(TViewModel);
 			return TryResolve<TViewModel>(type);
-
-			
 		}
 
 		private static TViewModel TryResolve<TViewModel>(Type type) where TViewModel : ViewModelBase
@@ -35,11 +35,10 @@ namespace BannerChecker.Wpf.Common
 			return (TViewModel) viewModel;
 		}
 
-		//private static ViewModelBase CreateSettingsViewModel()
-		//{
-		//	var settingsProvider = new IsolatedStorageSettingsProvider();
-		//	var viewModel = new SettingsViewModel(settingsProvider);
-		//	return viewModel;
-		//}
+		private static ViewModelBase CreateDirectoryInfoViewModel()
+		{
+			var imageInfoGetter = new CompositeImageInfoGetter();
+			return new DirectoryInfoViewModel(imageInfoGetter);
+		}
 	}
 }
