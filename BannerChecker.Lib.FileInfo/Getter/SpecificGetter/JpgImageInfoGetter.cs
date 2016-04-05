@@ -4,6 +4,7 @@ namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
 {
 	[ImageInfoGetter("jpg")]
 	[ImageInfoGetter("jpeg")]
+	[ImageInfoGetter("png")]
 	class JpgImageInfoGetter : ImageInfoGetterBase
 	{
 		protected override Size GetImageSize(string filePath)

@@ -43,7 +43,19 @@ namespace BannerChecker.Wpf.ViewModels
 		private void FillFilesInfo(string[] directoryFiles)
 		{
 			foreach (var directoryFile in directoryFiles)
-				DirectoryFilesInfo.Add(_imageInfoGetter.GetInfo(directoryFile));
+				TryAddImageFileInfo(directoryFile);
+		}
+
+		private void TryAddImageFileInfo(string directoryFile)
+		{
+			var imageInfo = _imageInfoGetter.GetInfo(directoryFile);
+			TryAddImageFileInfo(imageInfo);
+		}
+
+		private void TryAddImageFileInfo(ImageInfo imageInfo)
+		{
+			if (imageInfo != null)
+				DirectoryFilesInfo.Add(imageInfo);
 		}
 	}
 }
