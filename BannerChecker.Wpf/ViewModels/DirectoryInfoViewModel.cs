@@ -12,6 +12,8 @@ namespace BannerChecker.Wpf.ViewModels
 	{
 		private readonly IImageInfoGetter _imageInfoGetter;
 		private string _directoryPath;
+		private ObservableCollection<ImageInfo> directoryFilesInfo;
+
 		public string DirectoryPath
 		{
 			get { return _directoryPath; }
@@ -22,8 +24,16 @@ namespace BannerChecker.Wpf.ViewModels
 				UpdateDirectoryFilesInfo(value);
 			}
 		}
-		
-		public ObservableCollection<ImageInfo> DirectoryFilesInfo { get; set; } = new ObservableCollection<ImageInfo>();
+
+		public ObservableCollection<ImageInfo> DirectoryFilesInfo
+		{
+			get { return directoryFilesInfo; }
+			set
+			{
+				directoryFilesInfo = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public DirectoryInfoViewModel(IImageInfoGetter imageInfoGetter)
 		{
@@ -33,7 +43,15 @@ namespace BannerChecker.Wpf.ViewModels
 		private void UpdateDirectoryFilesInfo(string directoryPath)
 		{
 			if (Directory.Exists(directoryPath))
-				UpdateFilesInfo(GetAllNestedFiles(directoryPath));
+				UpdateFilesList(directoryPath);
+		}
+
+		private void UpdateFilesList(string directoryPath)
+		{
+			var imageInfos = GetAllNestedFiles(directoryPath)
+				.Select(df => _imageInfoGetter.GetInfo(df))
+				.Where(info => info != null);
+			DirectoryFilesInfo = new ObservableCollection<ImageInfo>(imageInfos);
 		}
 
 		private static IEnumerable<string> GetAllNestedFiles(string directoryPath)
@@ -42,30 +60,6 @@ namespace BannerChecker.Wpf.ViewModels
 				.GetDirectories(directoryPath)
 				.SelectMany(GetAllNestedFiles)
 				.Union(Directory.GetFiles(directoryPath));
-		}
-
-		private void UpdateFilesInfo(IEnumerable<string> directoryFiles)
-		{
-			DirectoryFilesInfo.Clear();
-			FillFilesInfo(directoryFiles);
-		}
-
-		private void FillFilesInfo(IEnumerable<string> directoryFiles)
-		{
-			foreach (var directoryFile in directoryFiles)
-				TryAddImageFileInfo(directoryFile);
-		}
-
-		private void TryAddImageFileInfo(string directoryFile)
-		{
-			var imageInfo = _imageInfoGetter.GetInfo(directoryFile);
-			TryAddImageFileInfo(imageInfo);
-		}
-
-		private void TryAddImageFileInfo(ImageInfo imageInfo)
-		{
-			if (imageInfo != null)
-				DirectoryFilesInfo.Add(imageInfo);
 		}
 	}
 }

@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace BannerChecker.Wpf.Views
+﻿namespace BannerChecker.Wpf.Views
 {
 	/// <summary>
 	/// Interaction logic for DirectoryInfoView.xaml

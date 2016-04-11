@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:BannerChecker.Wpf.ViewModels"
              xmlns:common="clr-namespace:BannerChecker.Wpf.Common"
-             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:filter="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
              mc:Ignorable="d">
 	<d:UserControl.DataContext>
 		<viewModels:DirectoryInfoViewModel />
@@ -22,11 +22,21 @@
 		</Grid.ColumnDefinitions>
 		<TextBox Text="{Binding DirectoryPath, Delay=2000}" />
 		<Button Grid.Row="0" Grid.Column="1" Content="Папка" />
-		<xcdg:DataGridControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" 
-				  ItemsSource="{Binding DirectoryFilesInfo}">
-			<xcdg:DataGridControl.Columns>
-				<xcdg:Column AllowGroup="True" AllowSort="True" FieldName=""></xcdg:Column>
-			</xcdg:DataGridControl.Columns>
-		</xcdg:DataGridControl>
+		<DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" 
+				  ItemsSource="{Binding DirectoryFilesInfo}" ColumnHeaderStyle="{StaticResource {ComponentResourceKey 
+				  TypeInTargetAssembly={x:Type filter:DataGridHeaderFilterControl}, 
+				  ResourceId=DataGridHeaderFilterControlStyle}}" AutoGenerateColumns="False"
+				  filter:DataGridExtensions.UseBackgroundWorkerForFiltering="True"
+				  filter:DataGridExtensions.IsClearButtonVisible="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Папка" Binding="{Binding DirectoryName}" />
+				<DataGridHyperlinkColumn Header="Файл" Binding="{Binding FileName}" />
+				<DataGridTextColumn Header="Тип" Binding="{Binding FileExtension}" />
+
+				<DataGridTextColumn Header="Размер" Binding="{Binding Size}" />
+				<DataGridTextColumn Header="Ширина" Binding="{Binding Width}" />
+				<DataGridTextColumn Header="Высота" Binding="{Binding Height}" />
+			</DataGrid.Columns>
+		</DataGrid>
 	</Grid>
 </common:ViewBase>
