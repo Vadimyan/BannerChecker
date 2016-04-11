@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
 using BannerChecker.Lib.FileInfo;
 using BannerChecker.Lib.FileInfo.Getter;
 using BannerChecker.Wpf.Common;
@@ -13,6 +14,8 @@ namespace BannerChecker.Wpf.ViewModels
 		private readonly IImageInfoGetter _imageInfoGetter;
 		private string _directoryPath;
 		private ObservableCollection<ImageInfo> directoryFilesInfo;
+
+		public ICommand ShowImageCommand { get; private set; }
 
 		public string DirectoryPath
 		{
@@ -35,7 +38,13 @@ namespace BannerChecker.Wpf.ViewModels
 			}
 		}
 
+		protected DirectoryInfoViewModel()
+		{
+			ShowImageCommand = new RelayCommand<ImageInfo>(ShowImage);
+		}
+		
 		public DirectoryInfoViewModel(IImageInfoGetter imageInfoGetter)
+			: this()
 		{
 			_imageInfoGetter = imageInfoGetter;
 		}
@@ -60,6 +69,11 @@ namespace BannerChecker.Wpf.ViewModels
 				.GetDirectories(directoryPath)
 				.SelectMany(GetAllNestedFiles)
 				.Union(Directory.GetFiles(directoryPath));
+		}
+
+		private void ShowImage(ImageInfo image)
+		{
+			//throw new System.NotImplementedException();
 		}
 	}
 }

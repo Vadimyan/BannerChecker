@@ -7,6 +7,7 @@
              xmlns:viewModels="clr-namespace:BannerChecker.Wpf.ViewModels"
              xmlns:common="clr-namespace:BannerChecker.Wpf.Common"
              xmlns:filter="clr-namespace:DataGridFilterLibrary;assembly=DataGridFilterLibrary"
+             xmlns:views="clr-namespace:BannerChecker.Wpf.Views"
              mc:Ignorable="d">
 	<d:UserControl.DataContext>
 		<viewModels:DirectoryInfoViewModel />
@@ -30,7 +31,24 @@
 				  filter:DataGridExtensions.IsClearButtonVisible="False">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Папка" Binding="{Binding DirectoryName}" />
-				<DataGridHyperlinkColumn Header="Файл" Binding="{Binding FileName}" />
+				<DataGridHyperlinkColumn Header="Файл" Binding="{Binding FileName}">
+					<DataGridHyperlinkColumn.CellStyle>
+						<Style TargetType="DataGridCell">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate>
+										<TextBlock>
+											<Hyperlink Command="{Binding DataContext.ShowImageCommand, RelativeSource={RelativeSource AncestorType={x:Type views:DirectoryInfoView}}}"
+                           CommandParameter="{Binding .}">
+												<TextBlock Text="{Binding FileName}" />
+											</Hyperlink>
+										</TextBlock>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGridHyperlinkColumn.CellStyle>
+				</DataGridHyperlinkColumn>
 				<DataGridTextColumn Header="Тип" Binding="{Binding FileExtension}" />
 
 				<DataGridTextColumn Header="Размер" Binding="{Binding Size}" />
