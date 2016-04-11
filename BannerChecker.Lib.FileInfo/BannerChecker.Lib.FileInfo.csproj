@@ -39,6 +39,7 @@
     <Compile Include="Getter\CompositeImageInfoGetter.cs" />
     <Compile Include="Getter\IImageInfoGetter.cs" />
     <Compile Include="Getter\ImageInfoGetterAttribute.cs" />
+    <Compile Include="Getter\SpecificGetter\HtmlImageInfoGetter.cs" />
     <Compile Include="Getter\SpecificGetter\ImageInfoGetterBase.cs" />
     <Compile Include="Getter\SpecificGetter\BitmapImageInfoGetter.cs" />
     <Compile Include="Getter\SpecificGetter\SwfImageInfoGetter.cs" />

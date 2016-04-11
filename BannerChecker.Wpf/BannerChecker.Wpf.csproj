@@ -54,10 +54,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ImageDialogService.cs" />
     <Compile Include="ViewModels\DirectoryInfoViewModel.cs" />
     <Compile Include="Views\DirectoryInfoView.xaml.cs">
       <DependentUpon>DirectoryInfoView.xaml</DependentUpon>
     </Compile>
+	  <Compile Include="Views\ImagePreviewWindow.xaml.cs">
+		  <DependentUpon>ImagePreviewWindow.xaml</DependentUpon>
+	  </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +83,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	<Page Include="Views\ImagePreviewWindow.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

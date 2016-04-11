@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BannerChecker.Lib.FileInfo.Getter;
+using BannerChecker.Wpf.Models;
 using BannerChecker.Wpf.ViewModels;
 
 namespace BannerChecker.Wpf.Common
@@ -37,8 +38,7 @@ namespace BannerChecker.Wpf.Common
 
 		private static ViewModelBase CreateDirectoryInfoViewModel()
 		{
-			var imageInfoGetter = new CompositeImageInfoGetter();
-			return new DirectoryInfoViewModel(imageInfoGetter);
+			return new DirectoryInfoViewModel(new CompositeImageInfoGetter(), new ImageDialogService());
 		}
 	}
 }

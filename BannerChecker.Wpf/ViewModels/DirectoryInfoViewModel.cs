@@ -6,12 +6,14 @@ using System.Windows.Input;
 using BannerChecker.Lib.FileInfo;
 using BannerChecker.Lib.FileInfo.Getter;
 using BannerChecker.Wpf.Common;
+using BannerChecker.Wpf.Models;
 
 namespace BannerChecker.Wpf.ViewModels
 {
 	public class DirectoryInfoViewModel : ViewModelBase
 	{
 		private readonly IImageInfoGetter _imageInfoGetter;
+		private readonly ImageDialogService _imageDialogService;
 		private string _directoryPath;
 		private ObservableCollection<ImageInfo> directoryFilesInfo;
 
@@ -43,10 +45,11 @@ namespace BannerChecker.Wpf.ViewModels
 			ShowImageCommand = new RelayCommand<ImageInfo>(ShowImage);
 		}
 		
-		public DirectoryInfoViewModel(IImageInfoGetter imageInfoGetter)
+		public DirectoryInfoViewModel(IImageInfoGetter imageInfoGetter, ImageDialogService imageDialogService)
 			: this()
 		{
 			_imageInfoGetter = imageInfoGetter;
+			_imageDialogService = imageDialogService;
 		}
 
 		private void UpdateDirectoryFilesInfo(string directoryPath)
@@ -73,7 +76,7 @@ namespace BannerChecker.Wpf.ViewModels
 
 		private void ShowImage(ImageInfo image)
 		{
-			//throw new System.NotImplementedException();
+			_imageDialogService.ShowImage(Path.Combine(image.DirectoryName, Path.ChangeExtension(image.FileName, image.FileExtension)));
 		}
 	}
 }
