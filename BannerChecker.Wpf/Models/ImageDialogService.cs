@@ -13,6 +13,7 @@ namespace BannerChecker.Wpf.Models
 			{ ".jpeg", ShowBitmapImage },
 			{ ".png", ShowBitmapImage },
 			{ ".gif", ShowBitmapImage },
+			{".swf", ShowSwfImage }
 		};
 		
 		public void ShowImage(string filePath)
@@ -24,6 +25,12 @@ namespace BannerChecker.Wpf.Models
 		private static void ShowBitmapImage(string filePath)
 		{
 			var window = new ImagePreviewWindow(filePath);
+			window.ShowDialog();
+		}
+
+		private static void ShowSwfImage(string filePath)
+		{
+			var window = new SwfPreviewWindow(filePath);
 			window.ShowDialog();
 		}
 	}
