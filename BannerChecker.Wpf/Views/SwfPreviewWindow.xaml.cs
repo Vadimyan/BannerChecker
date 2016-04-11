@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Navigation;
 
 namespace BannerChecker.Wpf.Views
 {
@@ -20,30 +19,40 @@ namespace BannerChecker.Wpf.Views
 	</body>
 </html>
 ";
-		public ShockwaveFlashObjects.ShockwaveFlash AxShockwaveFlash;
+
 		public SwfPreviewWindow(string filePath)
 		{
 			InitializeComponent();
-			var uri = CreateTempHtmlPage(filePath);
-			SwfHostFrame.Source = new Uri(new Uri(uri).AbsoluteUri);
-			
+			LoadSwf(filePath);
 		}
 
-		private string CreateTempHtmlPage(string filePath)
+		private void LoadSwf(string filePath)
 		{
-			var htmlText = string.Format(swfHtmlTemplate, filePath);
-			string fileName = Path.GetTempPath() + Guid.NewGuid() + ".html";
-			using (var file = File.CreateText(fileName))
-			{
-				file.Write(htmlText);
-				file.Close();
-			}
+			var uri = CreateTempHtmlPage(filePath);
+			SwfHostFrame.Source = new Uri(new Uri(uri).AbsoluteUri);
+		}
+
+		private string CreateTempHtmlPage(string swfFilePath)
+		{
+			string fileName = GetTempFileName();
+			CreateTempHtmlPage(swfFilePath, fileName);
 			return fileName;
 		}
 
-		private void SwfHostFrame_OnNavigated(object sender, NavigationEventArgs e)
+		private static void CreateTempHtmlPage(string swfFilePath, string fileName)
 		{
-			//SetSilent(sender as WebBrowser, true); // make it silent
+			using (var file = File.CreateText(fileName))
+				file.Write(GetHtmlContentFromTemplate(swfFilePath));
+		}
+
+		private static string GetHtmlContentFromTemplate(string filePath)
+		{
+			return string.Format(swfHtmlTemplate, filePath);
+		}
+
+		private static string GetTempFileName()
+		{
+			return Path.GetTempPath() + Guid.NewGuid() + ".html";
 		}
 	}
 }

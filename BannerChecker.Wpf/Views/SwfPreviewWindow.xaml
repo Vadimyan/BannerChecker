@@ -6,6 +6,6 @@
         mc:Ignorable="d"
         Title="SwfPreviewWindow" WindowState="Maximized" ShowInTaskbar="False">
     <Grid>
-		<WebBrowser x:Name="SwfHostFrame" Navigated="SwfHostFrame_OnNavigated" />
+		<WebBrowser x:Name="SwfHostFrame" />
 	</Grid>
 </Window>
