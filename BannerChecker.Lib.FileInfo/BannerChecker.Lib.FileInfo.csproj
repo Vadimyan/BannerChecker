@@ -47,9 +47,9 @@
     <Compile Include="Getter\SpecificGetter\HtmlImageInfoGetter.cs" />
     <Compile Include="Getter\SpecificGetter\ImageInfoGetterBase.cs" />
     <Compile Include="Getter\SpecificGetter\BitmapImageInfoGetter.cs" />
-    <Compile Include="Getter\SpecificGetter\ScriptStyleSizeRetriever.cs" />
+    <Compile Include="Getter\SpecificGetter\Html\ScriptStyleSizeRetriever.cs" />
     <Compile Include="Getter\SpecificGetter\SwfImageInfoGetter.cs" />
-    <Compile Include="Getter\SpecificGetter\SwiffyContainerSizeRetiever.cs" />
+    <Compile Include="Getter\SpecificGetter\Html\SwiffyContainerSizeRetiever.cs" />
     <Compile Include="ImageInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

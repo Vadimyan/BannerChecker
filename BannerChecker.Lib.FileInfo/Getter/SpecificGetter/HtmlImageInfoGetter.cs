@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using BannerChecker.Lib.FileInfo.Getter.SpecificGetter.Html;
 using HtmlAgilityPack;
 
@@ -9,11 +12,16 @@ namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
 	{
 		private readonly SwiffyContainerSizeRetiever _swiffyContainerSizeRetiever;
 		private readonly ScriptStyleSizeRetriever _styleSizeRetriever;
+		private readonly List<Func<HtmlNode, Size?>> _sizeRetrievers;
 
 		public HtmlImageInfoGetter()
 		{
 			_swiffyContainerSizeRetiever = new SwiffyContainerSizeRetiever();
 			_styleSizeRetriever = new ScriptStyleSizeRetriever();
+			_sizeRetrievers = new List<Func<HtmlNode, Size?>>
+			{
+				TryGetObjectNodeSize, TryGetSwiffyContainerSize, TryGetScriptStyleSize
+			};
 		}
 
 		protected override Size GetImageSize(string filePath)
@@ -24,36 +32,40 @@ namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
 
 		private Size GetImageSize(HtmlNode documentRootNode)
 		{
-			var objectNode = documentRootNode.SelectSingleNode("//object");
-			if (objectNode != null)
-			{
-				return GetEmbeddedObjectSize(objectNode);
-			}
+			return _sizeRetrievers
+				.Select(x => x(documentRootNode))
+				.FirstOrDefault(x => x.HasValue) 
+				?? new Size();
 
-			var swiffycontainerNode = documentRootNode.SelectSingleNode("//div[@id='swiffycontainer']");
-			if (swiffycontainerNode != null)
-			{
-				return GetSwiffyContainerSize(swiffycontainerNode);
-			}
-
-			var scripts = documentRootNode.Descendants("script");
-			foreach (var script in scripts)
-			{
-				Size? imageSize = _styleSizeRetriever.GetScriptStyleSize(script);
-				if (imageSize.HasValue)
-					return imageSize.Value;
-			}
-
-			return new Size();
 		}
 
-		private Size GetSwiffyContainerSize(HtmlNode swiffycontainerNode)
+		private Size? TryGetScriptStyleSize(HtmlNode documentRootNode)
+		{
+			return documentRootNode
+				.Descendants("script")
+				.Select(script => _styleSizeRetriever.GetScriptStyleSize(script))
+				.FirstOrDefault(imageSize => imageSize.HasValue);
+		}
+
+		private Size? TryGetSwiffyContainerSize(HtmlNode documentRootNode)
+		{
+			var swiffycontainerNode = documentRootNode.SelectSingleNode("//div[@id='swiffycontainer']");
+			return swiffycontainerNode != null ? GetSwiffyContainerSize(swiffycontainerNode) : null;
+		}
+
+		private static Size? TryGetObjectNodeSize(HtmlNode documentRootNode)
+		{
+			var objectNode = documentRootNode.SelectSingleNode("//object");
+			return objectNode != null ? GetEmbeddedObjectSize(objectNode) : null;
+		}
+
+		private Size? GetSwiffyContainerSize(HtmlNode swiffycontainerNode)
 		{
 			var style = swiffycontainerNode.Attributes["style"].Value;
 			return _swiffyContainerSizeRetiever.GetSwiffyContainerSize(style);
 		}
 		
-		private static Size GetEmbeddedObjectSize(HtmlNode objectNode)
+		private static Size? GetEmbeddedObjectSize(HtmlNode objectNode)
 		{
 			return new Size(int.Parse(objectNode.Attributes["width"].Value), int.Parse(objectNode.Attributes["height"].Value));
 		}
