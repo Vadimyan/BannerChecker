@@ -47,6 +47,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.14\lib\net\WpfAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -57,6 +61,9 @@
     <Compile Include="ViewModels\DirectoryInfoViewModel.cs" />
     <Compile Include="Views\DirectoryInfoView.xaml.cs">
       <DependentUpon>DirectoryInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GifPreviewWindow.xaml.cs">
+      <DependentUpon>GifPreviewWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HtmlPreviewWindow.xaml.cs">
       <DependentUpon>HtmlPreviewWindow.xaml</DependentUpon>
@@ -85,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DirectoryInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GifPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,6 +130,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
