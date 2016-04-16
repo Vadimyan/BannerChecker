@@ -1,0 +1,12 @@
+﻿<Window x:Class="BannerChecker.Wpf.Views.HtmlPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BannerChecker.Wpf.Views"
+        mc:Ignorable="d"
+        Title="HtmlPreviewWindow" WindowState="Maximized" ShowInTaskbar="False">
+    <Grid>
+		<WebBrowser x:Name="HtmlHostFrame" />
+	</Grid>
+</Window>

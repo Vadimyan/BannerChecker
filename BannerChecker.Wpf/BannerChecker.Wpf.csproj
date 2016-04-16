@@ -58,6 +58,9 @@
     <Compile Include="Views\DirectoryInfoView.xaml.cs">
       <DependentUpon>DirectoryInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HtmlPreviewWindow.xaml.cs">
+      <DependentUpon>HtmlPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImagePreviewWindow.xaml.cs">
       <DependentUpon>ImagePreviewWindow.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DirectoryInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HtmlPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
