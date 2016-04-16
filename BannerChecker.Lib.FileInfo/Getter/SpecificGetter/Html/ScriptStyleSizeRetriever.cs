@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
-namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
+namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter.Html
 {
 	class ScriptStyleSizeRetriever
 	{

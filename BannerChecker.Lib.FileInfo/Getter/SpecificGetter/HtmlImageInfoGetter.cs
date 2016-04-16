@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using BannerChecker.Lib.FileInfo.Getter.SpecificGetter.Html;
 using HtmlAgilityPack;
 
 namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter

@@ -1,7 +1,7 @@
 using System.Drawing;
 using System.Text.RegularExpressions;
 
-namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter
+namespace BannerChecker.Lib.FileInfo.Getter.SpecificGetter.Html
 {
 	class SwiffyContainerSizeRetiever
 	{
